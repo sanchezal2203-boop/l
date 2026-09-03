@@ -1,1 +1,61 @@
+pacientes = []
+p_alerta = []
+p_bradicardia = []
+p_normal = []
+p_taquicardia = []
+contador = 1
+contador_alerta = 0
+c_brad = 0
+c_norm = 0
+c_taq = 0
+while True:
+  print(f"Paciente {contador}")
+  fc = int(input("Ingrese los latidos en un minuto: "))
+  if fc != -1:
+    temperatura = float(input("Ingrese a temperatura corporal en °C: "))
+    saturacion = int(input("Ingrese la saturación de oxígeno (sin el signo %): "))
 
+    if fc < 60:
+      clasificacion = "bradicardia"
+      c_brad += 1
+      p_bradicardia.append(c_brad)
+    elif fc <= 100:
+      clasificacion = "normal"
+      c_norm += 1
+      p_normal.append(c_norm)
+    else:
+      clasificacion = "taquicardia"
+      c_taq += 1
+      p_taquicardia.append(c_taq)
+    if temperatura >= 38.5 or saturacion < 92 or clasificacion != "normal":
+      alerta = True
+      contador_alerta += 1
+      p_alerta.append(contador_alerta)
+    else:
+      alerta = False
+
+    print(f"Frecuencia cardiaca: {clasificacion}")
+    if alerta:
+     print("ALERTA: requiere atencion inmediata")
+    else:
+      print("Sin alerta, paciente estable")
+
+    pacientes.append((fc, temperatura, saturacion, clasificacion, alerta))
+    contador += 1
+
+  else:
+    break
+
+titulo = "Resultados"
+print("=" * 60)
+print(titulo.upper().center(60))
+print("=" * 60)
+print(f"Total de pacientes atendidos: {len(pacientes)}")
+print(f"Total de pacientes en alerta: {len(p_alerta)}")
+if len(pacientes) == 0:
+  print("No hubo pacientes, el promedio es 0")
+promedio = (len(p_alerta)/len(pacientes))*100
+print(f"El promedio de pacientes en alerta fue {promedio:.2f}%")
+print(f"La cantidad de pacientes con bardicaria son: {len(p_bradicardia)}")
+print(f"La cantidad de pacientes con fc normal son: {len(p_normal)}")
+print(f"La cantidad de pacientes con taquicardia son: {len(p_taquicardia)} ")
